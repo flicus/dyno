@@ -37,8 +37,6 @@ import java.util.jar.JarFile;
 
 public class JarClassLoader extends ClassLoader {
 
-    public static String fileSeparator = System.getProperty("file.separator");
-
     private Map<String, JarClassDef> mappings = new HashMap<String, JarClassDef>();
     private Map<String, Class<?>> cache = new HashMap<String, Class<?>>();
     private PluginLoader pluginLoader;
@@ -46,14 +44,6 @@ public class JarClassLoader extends ClassLoader {
     public JarClassLoader(PluginLoader pluginLoader) {
         super();
         this.pluginLoader = pluginLoader;
-    }
-
-    public JarClassLoader() {
-        super();
-    }
-
-    public void setPluginLoader(PluginLoader loader) {
-        this.pluginLoader = loader;
     }
 
     @Override
@@ -65,6 +55,9 @@ public class JarClassLoader extends ClassLoader {
         if (result == null && mappings.containsKey(name)) {
             try {
                 result = readClass(name, mappings.get(name));
+                if (result != null) {
+                    cache.put(name, result);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
