@@ -1,0 +1,8 @@
+rootProject.name = 'dyno'
+
+include 'api'
+
+include 'plugin1'
+
+include 'main'
+
